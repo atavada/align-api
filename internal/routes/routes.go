@@ -32,7 +32,7 @@ func SetupRoutes(app *fiber.App, h *Handlers, clerkSecretKey string) {
 	users.Get("/me", h.User.GetCurrentUser)
 
 	// Organization routes
-	organization := protected.Group("/organization")
+	organization := protected.Group("/organizations")
 	organization.Get("/", h.Organization.ListUserOrganizations)
 	organization.Get("/:id", h.Organization.GetOrganization)
 }
