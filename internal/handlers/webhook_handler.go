@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"net/http"
 
 	"github.com/atavada/project-management-saas/internal/models"
 	"github.com/atavada/project-management-saas/internal/repository"
@@ -58,11 +59,10 @@ func (h *WebhookHandler) HandlerClerkWebhook(c fiber.Ctx) error {
 	}
 
 	payload := c.Body()
-	headers := map[string][]string{
-		"svix-Id":        {svixID},
-		"svix-timestamp": {svixTimeStamp},
-		"svix-signature": {svixSignature},
-	}
+	headers := http.Header{}
+	headers.Set("svix-id", svixID)
+	headers.Set("svix-timestamp", svixTimeStamp)
+	headers.Set("svix-signature", svixSignature)
 
 	var event map[string]interface{}
 	err = webhooks.Verify(payload, headers)
